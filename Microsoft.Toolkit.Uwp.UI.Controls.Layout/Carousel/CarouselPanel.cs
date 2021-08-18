@@ -352,6 +352,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 planeProjection.RotationZ = proj.RotationZ;
 
                 planeProjection.GlobalOffsetZ = proj.Depth;
+
+                element.Opacity = proj.Opacity;
             }
             else
             {
@@ -364,6 +366,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 string rotationXProjection = "(UIElement.Projection).(PlaneProjection.RotationX)";
                 string rotationYProjection = "(UIElement.Projection).(PlaneProjection.RotationY)";
                 string rotationZProjection = "(UIElement.Projection).(PlaneProjection.RotationZ)";
+                string opacity = "(UIElement.Opacity)";
 
                 AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.Position, localProjectionOrientation, Carousel.EasingFunction);
                 AddAnimation(storyboard, element, Carousel.TransitionDuration, 0, localProjectionOrientationInvert, Carousel.EasingFunction);
@@ -371,6 +374,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.RotationX, rotationXProjection, Carousel.EasingFunction);
                 AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.RotationY, rotationYProjection, Carousel.EasingFunction);
                 AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.RotationZ, rotationZProjection, Carousel.EasingFunction);
+                AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.Opacity, opacity, Carousel.EasingFunction);
             }
         }
 
@@ -398,6 +402,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // max Depth
             double depth = (double)-Carousel.ItemDepth;
 
+            // max Opacity
+            double opacity = (double)Carousel.ItemOpacity;
+
             // rotations
             var rotationX = Carousel.ItemRotationX;
             var rotationY = Carousel.ItemRotationY;
@@ -407,6 +414,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (relativePosition <= maxBounds)
             {
                 depth = relativePosition * depth / maxBounds;
+                opacity = (1 + Carousel.ItemOpacity) - (relativePosition / maxBounds);
                 rotationX = relativePosition * Carousel.ItemRotationX / maxBounds;
                 rotationY = relativePosition * Carousel.ItemRotationY / maxBounds;
                 rotationZ = relativePosition * Carousel.ItemRotationZ / maxBounds;
@@ -419,7 +427,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rotationZ = -rotationZ;
             }
 
-            return new Proj { Position = newPosition, Depth = depth, RotationX = rotationX, RotationY = rotationY, RotationZ = rotationZ };
+            return new Proj { Position = newPosition, Depth = depth, RotationX = rotationX, RotationY = rotationY, RotationZ = rotationZ, Opacity = opacity };
         }
 
         /// <summary>
@@ -443,6 +451,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Depth orientation
             var depth = relativeIndex == 0 ? 0 : -Carousel.ItemDepth;
 
+            var opacity = relativeIndex == 0 ? 1 : Carousel.ItemOpacity;
+
             // Rotation on each axes
             var rotationX = relativeIndex == 0 ? 0 : Carousel.ItemRotationX;
             var rotationY = relativeIndex == 0 ? 0 : Carousel.ItemRotationY;
@@ -455,7 +465,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rotationZ = -rotationZ;
             }
 
-            return new Proj { Position = position, Depth = depth, RotationX = rotationX, RotationY = rotationY, RotationZ = rotationZ };
+            return new Proj { Position = position, Depth = depth, RotationX = rotationX, RotationY = rotationY, RotationZ = rotationZ, Opacity = opacity };
         }
 
         /// <summary>
@@ -510,5 +520,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the rotation around the Z axis
         /// </summary>
         public double RotationZ { get; set; }
+
+        /// <summary>
+        /// Gets or sets the opacity of an item
+        /// </summary>
+        public double Opacity { get; set; }
     }
 }

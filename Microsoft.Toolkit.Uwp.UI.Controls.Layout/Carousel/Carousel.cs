@@ -90,6 +90,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
         /// <summary>
+        /// Gets or sets the opacity of items that are not selected.
+        /// </summary>
+        public double ItemOpacity
+        {
+            get { return (double)GetValue(ItemOpacityProperty); }
+            set { SetValue(ItemOpacityProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ItemOpacity"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ItemOpacityProperty = DependencyProperty.Register("ItemOpacity", typeof(double), typeof(Carousel), new PropertyMetadata(1, OnCarouselPropertyChanged));
+
+        /// <summary>
         /// Gets or sets easing function to apply for each transition.
         /// </summary>
         public EasingFunctionBase EasingFunction
