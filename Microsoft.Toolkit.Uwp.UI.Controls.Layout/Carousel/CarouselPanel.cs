@@ -400,10 +400,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var relativePosition = Math.Abs(newPosition);
 
             // max Depth
-            double depth = (double)-Carousel.ItemDepth;
+            double depth = -Carousel.ItemDepth;
 
             // max Opacity
-            double opacity = (double)Carousel.ItemOpacity;
+            double opacity = 1 + Carousel.ItemOpacity;
 
             // rotations
             var rotationX = Carousel.ItemRotationX;
@@ -414,7 +414,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (relativePosition <= maxBounds)
             {
                 depth = relativePosition * depth / maxBounds;
-                opacity = (1 + Carousel.ItemOpacity) - (relativePosition / maxBounds);
+                opacity = relativePosition * opacity / maxBounds;
                 rotationX = relativePosition * Carousel.ItemRotationX / maxBounds;
                 rotationY = relativePosition * Carousel.ItemRotationY / maxBounds;
                 rotationZ = relativePosition * Carousel.ItemRotationZ / maxBounds;
@@ -427,7 +427,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rotationZ = -rotationZ;
             }
 
-            return new Proj { Position = newPosition, Depth = depth, RotationX = rotationX, RotationY = rotationY, RotationZ = rotationZ, Opacity = opacity };
+            return new Proj { Position = newPosition, Depth = depth, Opacity = opacity, RotationX = rotationX, RotationY = rotationY, RotationZ = rotationZ };
         }
 
         /// <summary>
@@ -465,7 +465,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rotationZ = -rotationZ;
             }
 
-            return new Proj { Position = position, Depth = depth, RotationX = rotationX, RotationY = rotationY, RotationZ = rotationZ, Opacity = opacity };
+            return new Proj { Position = position, Depth = depth, Opacity = opacity, RotationX = rotationX, RotationY = rotationY, RotationZ = rotationZ };
         }
 
         /// <summary>
@@ -507,6 +507,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public double Depth { get; set; }
 
         /// <summary>
+        /// Gets or sets the opacity of an item
+        /// </summary>
+        public double Opacity { get; set; }
+
+        /// <summary>
         /// Gets or sets the rotation around the X axis
         /// </summary>
         public double RotationX { get; set; }
@@ -520,10 +525,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the rotation around the Z axis
         /// </summary>
         public double RotationZ { get; set; }
-
-        /// <summary>
-        /// Gets or sets the opacity of an item
-        /// </summary>
-        public double Opacity { get; set; }
     }
 }
