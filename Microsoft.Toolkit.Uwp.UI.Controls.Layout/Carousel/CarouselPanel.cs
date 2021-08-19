@@ -403,7 +403,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double depth = -Carousel.ItemDepth;
 
             // max Opacity
-            double opacity = 1 + Carousel.ItemOpacity;
+            double opacity = Carousel.ItemOpacity;
 
             // rotations
             var rotationX = Carousel.ItemRotationX;
@@ -414,7 +414,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (relativePosition <= maxBounds)
             {
                 depth = relativePosition * depth / maxBounds;
-                opacity = relativePosition * opacity / maxBounds;
+                opacity = (1 + Carousel.ItemOpacity) - (relativePosition / maxBounds);
                 rotationX = relativePosition * Carousel.ItemRotationX / maxBounds;
                 rotationY = relativePosition * Carousel.ItemRotationY / maxBounds;
                 rotationZ = relativePosition * Carousel.ItemRotationZ / maxBounds;
